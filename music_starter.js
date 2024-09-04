@@ -1,102 +1,108 @@
-let BubbleArrayX = [50, 100, 300];
-let BubbleArrayY = [100, 800, 200];
-let ShineArrayX = [500, 300, 800];
-let ShineArrayY = [130, 1000, 300];
+let BubbleArrayX = [50, 90, 270, 600, 100, 150, 800];
+let BubbleArrayY = [150, 120, 160, 90, 900, 1000, 1000];
+let BubbleArraySize = [100, 50, 20, 60, 200, 100, 100];
+let ShineArrayX = [500, 300, 800, 1500, 1700, 100];
+let ShineArrayY = [130, 1000, 300, 100, 400, 700];
 let StarArray = [];
-let fishX = 1
-let fishY = 0
+let coralArrayX = [60, 210, 300, 50, 250, 400, 500, 530];
+let coralArrayY = [750, 610, 900, 950, 1000, 700, 800, 950];
+let fishX = 1;
+let fishY = 0;
+let Ymove = 1080
 // let
-// let
-let img;
+let img; //pink fish
+let img2; //blue fish
+let img3; //Background elements
+let img4; //bw background
+let img5; //water
 let firstRun = true
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
-  // background(22, 23, 49);
-  background(23, 31, 87);
+
   rectMode(CENTER)
-  if (firstRun) { //need to make an if statement switching between the 2 fish
-    img = loadImage('fish.png') //fish drawing i did
+  if (firstRun) { //images
+    img = loadImage('Pink_Fish.png'); //pink fish
+    img2 = loadImage('Blue_Fish.png'); //blue fish
+    img3 = loadImage('RockCoral.png');
+    img4 = loadImage('BWRockCoral.png');
+    img5 = loadImage('Water.png')
     firstRun = false
   }
+  background(img5);
+
 
   let fillSize = map(other, 0, 100, 4, 30);
   let bubbleSize = map(bass, 0, 100, 50, 90);
   let shineSize = map(vocal, 0, 100, 5, 100);
-  let sparkleSize = map(drum, 0, 100, 5, 100);
+  let spinAmount = map(drum, 0, 100, 0, 150);
   let fishY = map(other, 0, 100, 450, 530);
 
   //scene changes!!
   //start and end
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
-    image(img, 800, fishY) //change to blue fishy
-    DrawCoral();
+    image(img3, 0, 0)
+    image(img2, 800, fishY) //change to blue fishy
+    DrawCoral([229, 130, 180]);
 
   }
 
 
   //build up
-  if ((counter > 900 && counter < 2701) || (counter > 6500 && counter < 7301) || (counter > 10100 && counter < 12001)) {
-    fill('black')
-    ellipse(100, 100, 100, 100)
+  if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
+    image(img3, 0, 0)
     //swirls 
-    image(img, 800, fishY); // fish
+    image(img, 800, fishY); // pink fish
+    DrawCoral([229, 130, 180]);
   }
 
 
   //magic
-  if ((counter > 2700 && counter < 5601) || (counter > 7300 && counter < 9201) || (counter > 12000 && counter < 14700)) {
-    background(63, 52, 101);
+  if ((counter > 2720 && counter < 5601) || (counter > 7400 && counter < 9201) || (counter > 12000 && counter < 14700)) {
+    background(83, 60, 122);
     image(img, 800, fishY); // fish
     //swirls 
-    //shines and stars //the shines and stars should be glowing and changing size
-    fill(253, 252, 208); //light yellow
-    stroke(253, 252, 208); //light yellow
-
-    ellipse(ShineArrayX[1], ShineArrayY[1], shineSize, 5);
-    ellipse(ShineArrayX[1], ShineArrayY[1], 5, shineSize);
-    ellipse(ShineArrayX[2], ShineArrayY[2], shineSize, 5);
-    ellipse(ShineArrayX[2], ShineArrayY[2], 5, shineSize);
-    ellipse(ShineArrayX[3], ShineArrayY[3], shineSize, 5);
-    ellipse(ShineArrayX[3], ShineArrayY[3], 5, shineSize);
-
-
+    //the shines and stars should be glowing and changing size
+    for (let j = 0; j <= 20; j++) { //shines
+      fill(253, 252, 208); //light yellow
+      stroke(253, 252, 208);
+      strokeWeight(4);
+      ellipse(ShineArrayX[j], ShineArrayY[j], shineSize, 5);
+      ellipse(ShineArrayX[j], ShineArrayY[j], 5, shineSize);
+    }
   }
 
 
   //still
   if ((counter > 5600 && counter < 6501) || (counter > 9200 && counter < 10101)) {
+    background(36, 36, 36);
+    image(img4, 0, 0)
     stroke('white');
-    background('black');
-    DrawCoral();
+    DrawCoral(['grey']);
 
   }
 
 
   //background
-  //bubbles //the bubbles should be moving up the page and changing size lol
-  const distance = 2000;
-  const steps = 1000; // number of steps to move
-  for (let i = 0; i <= steps; i++) {
+  for (let i = 0; i <= 7; i++) { //DUPLICATE
+    fill(208, 243, 240);
     noFill();
-    stroke(208, 243, 240); //light blue
-    strokeWeight(7);
-    ellipse(BubbleArrayX[0], BubbleArrayY[0], bubbleSize * 2);
-    ellipse(BubbleArrayX[1], BubbleArrayY[1], bubbleSize);
-    ellipse(BubbleArrayX[2], BubbleArrayY[2], bubbleSize / 2);
+    stroke(255, 255, 255); //light blue
+    strokeWeight(9);
+    ellipse(BubbleArrayX[i], Ymove + BubbleArrayY[i], BubbleArraySize[i]);
+    ellipse(BubbleArrayX[i] * 5, Ymove + BubbleArrayY[i] * 2, BubbleArraySize[i] * 1.3);
+    ellipse(BubbleArrayX[i + 2] + 1090, Ymove + BubbleArrayY[i], BubbleArraySize[i] * 1);
+    ellipse(BubbleArrayX[i] + 500, Ymove + BubbleArrayY[i] / 2, BubbleArraySize[i] / 2);
+    if (BubbleArraySize[i] > 60) { //failed attempt at an if statement
+      fill(208, 243, 240);
+    } else {
+      noFill(); // No fill
+    }
   }
 
-  for (let i = 1; i < 100; i++) { //for loop to make small bubbles around the page
-    let bubbleX = i * 800;
-    let bubbleY = i * 300;
-    noFill();
-    stroke(245, 203, 245);
-    strokeWeight(4);
-    ellipse(bubbleX + 80, bubbleY + 10, fillSize, fillSize);
+  Ymove = Ymove - 1; //this makes the bubbles move but i dont really undestand it
+  if (Ymove < -100) {
+    Ymove = 1480;
   }
-  //stars and shines should be glowing and changing size
-
-
-
 
   let seconds = counter //the timer at the bottom left 
   if (seconds > 0) {
@@ -104,34 +110,24 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     text(nf(seconds, 3, 2), 20, height - 20);
   }
 
-}
+  function DrawCoral(coralColour) { //scenery
+    //some sort of round coral changing SIZE to bass or drum
+    //blue semicircles some sort of aquatic plant?
+    // star shaped coral rotating to vocals
 
-function DrawCoral(x, y) { //ROTATE with the beat
-  //rocks in background
-  fill(16, 48, 68);
-  stroke(16, 48, 68);
-  //blue semicircles
-  //make coral arrays?
-  noFill();
-  stroke('white');
-  strokeWeight(7);
+    for (let k = 0; k <= 20; k++) {
+      stroke(coralColour);
+      push();
+      translate(coralArrayX[k], coralArrayY[k]);
+      rotate(spinAmount);
+      strokeWeight(14);
+      ellipse(0, 0, 5, 130);
+      ellipse(0, 0, 130, 5);
+      rotate(45)
+      ellipse(0, 0, 5, 130);
+      ellipse(0, 0, 130, 5);
+      pop();
+    }
 
-  beginShape();
-  vertex(1712, 530);
-  bezierVertex(1590, 754, 1824, 966, 1920, 992);
-  endShape();
-
-  beginShape();
-  vertex(1578, 690);
-  bezierVertex(1542, 830, 1668, 1092, 1840, 1066);
-  endShape();
-
-  beginShape();
-  vertex(1842, 566);
-  bezierVertex(1910, 742, 1870, 914, 1772, 1096);
-  endShape();
-  // star shaped coral
-  stroke(241, 191, 204); //pink
-  strokeWeight(20);
-  line(200, 1000, 50, 1000);
+  }
 }
