@@ -4,11 +4,12 @@ let BubbleArraySize = [100, 50, 20, 60, 200, 100, 100];
 let ShineArrayX = [500, 300, 800, 1500, 1700, 100];
 let ShineArrayY = [130, 1000, 300, 100, 400, 700];
 let StarArray = [];
-let coralArrayX = [60, 210, 300, 50, 250, 400, 500, 530];
-let coralArrayY = [750, 610, 900, 950, 1000, 700, 800, 950];
+let coralArrayX = [60, 210, 300, 50, 250, 400, 500, 530, 1400, 1750, 1450, 1600, 1900, 1740];
+let coralArrayY = [750, 610, 900, 950, 1000, 700, 800, 950, 900, 550, 650, 700, 700, 850];
 let fishX = 1;
 let fishY = 0;
 let Ymove = 1080
+let Ymove2 = 120
 // let
 let img; //pink fish
 let img2; //blue fish
@@ -41,8 +42,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   //start and end
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
     image(img3, 0, 0)
-    image(img2, 800, fishY) //change to blue fishy
     DrawCoral([229, 130, 180]);
+    image(img2, 800, fishY) //change to blue fishy
+
 
   }
 
@@ -51,8 +53,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
     image(img3, 0, 0)
     //swirls 
-    image(img, 800, fishY); // pink fish
     DrawCoral([229, 130, 180]);
+    image(img, 800, fishY); // pink fish
+
   }
 
 
@@ -98,10 +101,30 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       noFill(); // No fill
     }
   }
+  for (let e = 0; e <= 7; e++) { //DUPLICATE
+    fill(208, 243, 240);
+    noFill();
+    stroke(255, 255, 255); //light blue
+    strokeWeight(9);
+    ellipse(BubbleArrayX[e], Ymove2 + BubbleArrayY[e], BubbleArraySize[e]);
+    ellipse(BubbleArrayX[e] * 5, Ymove2 + BubbleArrayY[e] * 2, BubbleArraySize[e] * 1.3);
+    ellipse(BubbleArrayX[e + 2] + 1090, Ymove2 + BubbleArrayY[e], BubbleArraySize[e] * 1);
+    ellipse(BubbleArrayX[e] + 500, Ymove2 + BubbleArrayY[e] / 2, BubbleArraySize[e] / 2);
+    if (BubbleArraySize[e] > 60) { //failed attempt at an if statement
+      fill(208, 243, 240);
+    } else {
+      noFill(); // No fill
+    }
+  }
 
-  Ymove = Ymove - 1; //this makes the bubbles move but i dont really undestand it
-  if (Ymove < -100) {
-    Ymove = 1480;
+  Ymove = Ymove - 1.5; //speed
+  if (Ymove < -1200) { //if it goes past this value
+    Ymove = 1480; //where it resets to?
+  }
+
+  Ymove2 = Ymove2 - 1;
+  if (Ymove2 < -1200) {
+    Ymove2 = 1480;
   }
 
   let seconds = counter //the timer at the bottom left 
