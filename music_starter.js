@@ -4,8 +4,8 @@ let BubbleArraySize = [50, 30, 30, 50, 60, 40, 55, 30, 40, 50, 60, 40, 54, 40, 2
 let ShineArrayX = [500, 300, 800, 1500, 1700, 100];
 let ShineArrayY = [130, 1000, 300, 100, 400, 700];
 let bubbles = [];
-let coralArrayX = [60, 210, 300, 50, 250, 400, 500, 530, 1400, 1750, 1450, 1600, 1900, 1740];
-let coralArrayY = [750, 610, 900, 950, 1000, 700, 800, 950, 900, 550, 650, 700, 700, 850];
+let coralArrayX = [60, 170, 300, 50, 250, 400, 500, 530, 1400, 1750, 1450, 1600, 1900, 1740];
+let coralArrayY = [750, 900, 900, 1000, 1000, 700, 800, 950, 900, 550, 650, 700, 700, 850];
 let fishX = 1;
 let fishY = 0;
 let Ymove = 250 //where the bubbles start 250
@@ -64,7 +64,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   //start and end
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
     image(img3, 0, 0)
-    DrawCoral([229, 130, 180]);
+    DrawCoral([211, 95, 212]);
     DrawSeaweed();
     image(img2, 800, fishY) //change to blue fishy
 
@@ -76,7 +76,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
     image(img3, 0, 0)
     //swirls 
-    DrawCoral([229, 130, 180]);
+    DrawCoral([211, 95, 212]);
     DrawSeaweed();
     image(img, 800, fishY); // pink fish
 
@@ -197,13 +197,13 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       fill(coralColour);
       translate(coralArrayX[k], coralArrayY[k]);
       rotate(spinAmount);
-      strokeWeight(14);
+      strokeWeight(8);
 
-      ellipse(0, 0, 5, 130);
-      ellipse(0, 0, 130, 5);
+      ellipse(0, 0, 5, 90);
+      ellipse(0, 0, 90, 5);
       rotate(45)
-      ellipse(0, 0, 5, 130);
-      ellipse(0, 0, 130, 5);
+      ellipse(0, 0, 5, 90);
+      ellipse(0, 0, 90, 5);
       pop();
     }
 
