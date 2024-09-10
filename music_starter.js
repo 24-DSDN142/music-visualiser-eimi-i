@@ -1,11 +1,13 @@
 let BubbleArrayX = [50, 90, 270, 600, 100, 150, 800, 1200, 1600, 1800, 1600, 600, 200, 300, 330, 500, 900];
 let BubbleArrayY = [150, 120, 160, 90, 600, 650, 600, 600, 900, 100, 400, 500, 900, 450, 460, 700, 1040];
 let BubbleArraySize = [50, 30, 30, 50, 60, 40, 55, 30, 40, 50, 60, 40, 54, 40, 20, 30, 50];
-let ShineArrayX = [500, 300, 800, 1500, 1700, 100];
-let ShineArrayY = [130, 1000, 300, 100, 400, 700];
+let ShineArrayX = [900, 100, 300, 1200, 1500, 1550];
+let ShineArrayY = [130, 850, 1000, 300, 340, 690];
+let CircleArrayX = [500, 700, 100, 60, 220, 50, 500, 1000, 860, 600, 1200, 1400, 1170, 1400, 1600, 1870, 1640];
+let CircleArrayY = [50, 60, 160, 650, 840, 1000, 1040, 1020, 340, 250, 120, 50, 450, 540, 800, 300, 200];
 let bubbles = [];
-let coralArrayX = [60, 170, 300, 50, 250, 400, 500, 530, 1400, 1750, 1450, 1600, 1900, 1740];
-let coralArrayY = [750, 900, 900, 1000, 1000, 700, 800, 950, 900, 550, 650, 700, 700, 850];
+let coralArrayX = [10, 5, 60, 70, 130, 150, 150, 20, 1590, 1660, 1680, 1600, 1670, 1750, 210];
+let coralArrayY = [950, 1040, 1000, 900, 960, 890, 1040, 870, 530, 560, 500, 470, 420, 460, 970];
 let fishX = 1;
 let fishY = 0;
 let Ymove = 250 //where the bubbles start 250
@@ -13,24 +15,34 @@ let Ymove2 = 1380
 let Ymove3 = 1480
 let img; //pink fish
 let img2; //blue fish
-let img3; //Background elements
-let img4; //bw background
-let img5; //water
+let img3; //rocks
+let img4; //bw rocks w coral
+let img5; //water background
+let img6; //bw purple coral
+let img7; //purple coral
+let img8; //purple coral
+let img9; //swirl
+let img10; //magic background
+let img11; //bw purplecoral(2)
 let firstRun = true
 let bubblesInitialized = false;
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
-
-  rectMode(CENTER)
-
   if (firstRun) { //images
     img = loadImage('Pink_Fish.png'); //pink fish
     img2 = loadImage('Blue_Fish.png'); //blue fish
     img3 = loadImage('RockCoral.png');
     img4 = loadImage('BWRockCoral.png');
-    img5 = loadImage('Water.png')
+    img5 = loadImage('Water.png');
+    img6 = loadImage('BWPurpleCoral.png')
+    img7 = loadImage('PurpleCoral.png');
+    img8 = loadImage('PurpleCoral2.png');
+    img9 = loadImage('Swirl.png');
+    img10 = loadImage('magicbackground.png');
+    img11 = loadImage('BWPurpleCoral2')
     firstRun = false
   }
+  rectMode(CENTER)
   background(img5);
 
   class Bubble {
@@ -53,59 +65,71 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   }
 
   let bubbles = new Bubble(200, 0, 500);
-  let fillSize = map(other, 0, 100, 4, 30);
-  let bubbleSize = map(bass, 0, 100, 50, 90);
-  let shineSize = map(vocal, 0, 100, 5, 100);
-  let shineAuraSize = map(vocal, 0, 100, 30, 150);
-  let spinAmount = map(drum, 0, 100, 0, 150);
+  let coralSize = map(bass, 0, 100, 260, 320);
+  let coralLength = map(vocal, 0, 100, 20, 70);
+  let spinAmount = map(drum, 0, 100, 0, 140);
   let fishY = map(other, 0, 100, 430, 530);
+  //magic variables
+  let shineSize = map(vocal, 0, 100, 40, 100);
+  let circleSize = map(bass, 0, 100, 3, 30);
 
   //scene changes!!
   //start and end
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
-    image(img3, 0, 0)
-    DrawCoral([211, 95, 212]);
+    image(img3, 0, 0); //rocks
+    image(img7, 430, 550, coralSize, coralSize); //purple corals 
+    image(img8, 1400, 550, coralSize, coralSize);
+    DrawCoral([211, 95, 212], [226, 182, 244]); //spinning coral
+    DrawCoral([211, 95, 212], [226, 182, 244], 1150, -140);
+    DrawCoral([211, 95, 212], [226, 182, 244], 50, 100, 0.5);
     DrawSeaweed();
-    image(img2, 800, fishY) //change to blue fishy
-
+    image(img2, 800, fishY); //change to blue fishy
 
   }
 
 
   //build up
   if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
-    image(img3, 0, 0)
-    //swirls 
-    DrawCoral([211, 95, 212]);
+    image(img3, 0, 0); //rocks
+    image(img7, 430, 550, coralSize, coralSize); //purple corals 
+    image(img8, 1400, 550, coralSize, coralSize);
+    DrawCoral([211, 95, 212], [226, 182, 244]);
+    DrawCoral([211, 95, 212], [226, 182, 244], 1150, -140);
+    DrawCoral([211, 95, 212], [226, 182, 244], 50, 100, 0.5);
     DrawSeaweed();
     image(img, 800, fishY); // pink fish
-
   }
 
 
   //magic
   if ((counter > 2720 && counter < 5601) || (counter > 7400 && counter < 9201) || (counter > 12000 && counter < 14700)) {
-    background(83, 60, 122);
+    image(img10, 0, 0);
+    background
+    image(img9, 0, 0); //swirls :O
     image(img, 800, fishY); // fish
-    //swirls 
+    //circles
+    for (let s = 0; s <= 17; s++) {
+      fill(247, 237, 213);
+      stroke(247, 237, 213);
+      strokeWeight(2);
+      ellipse(CircleArrayX[s], CircleArrayY[s], circleSize)
+    }
 
-    //the shines and stars should be glowing and changing size
+
+
     for (let j = 0; j <= 20; j++) { //shines
-      // //shine aura
-      // fill(172, 140, 155);
-      // strokeWeight(0);
-      // ellipse(ShineArrayX[j], ShineArrayY[j], shineAuraSize);
-
-      fill(253, 252, 208); //light yellow
-      stroke(253, 252, 208);
-      strokeWeight(4);
+      //shines
+      fill(249, 227, 178); //light yellow
+      stroke(249, 227, 178);
+      strokeWeight(8);
 
       ellipse(ShineArrayX[j], ShineArrayY[j], shineSize, 5);
       ellipse(ShineArrayX[j], ShineArrayY[j], 5, shineSize); //shine shape
 
+
+      // for (let h = 0; h <= 20; h++) { //stars
+      // }
     }
-    // for (let h = 0; h <= 20; h++) { //stars
-    // }
   }
 
 
@@ -113,10 +137,13 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if ((counter > 5600 && counter < 6501) || (counter > 9200 && counter < 10101)) {
     background(36, 36, 36);
     image(img4, 0, 0)
+    image(img6, 430, 550, coralSize, coralSize); //purple corals 
+    image(img11, 1400, 550, coralSize, coralSize);
     stroke('white');
-    DrawCoral(['grey']);
+    DrawCoral([143, 143, 143], [210, 210, 210]);
+    DrawCoral([143, 143, 143], [210, 210, 210], 1150, -140);
+    DrawCoral([143, 143, 143], [210, 210, 210], 50, 100, 0.5);
     DrawSeaweed();
-
   }
 
   //bubbles 
@@ -158,11 +185,11 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   }
 
   Ymove = Ymove - 1; //speed
-  if (Ymove < -1000) { //if it goes past this value
+  if (Ymove < -1100) { //if it goes past this value
     Ymove = 1480; //where it resets to?
   }
   Ymove2 = Ymove2 - 1;
-  if (Ymove2 < -1200) {
+  if (Ymove2 < -1100) {
     Ymove2 = 1480;
   }
   Ymove3 = Ymove3 - 13;
@@ -176,22 +203,34 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     text(nf(seconds, 3, 2), 20, height - 20);
   }
 
-  function DrawCoral(coralColour, roundColour) { //scenery
-    //some sort of round coral changing SIZE to bass or drum
-    //blue semicircles some sort of aquatic plant?
-    // star shaped coral rotating to vocals
-    for (let c = 0; c <= 13; c++) {
-      stroke(185, 100, 233);
-      strokeWeight(7);
-      fill(185, 100, 233); //purple
-
-
-
-
+  function DrawCoral(coralColour, spikeColour, offsetX = 0, offsetY = 0, size = 1) { //corals
+    for (let n = 0; n <= 2; n++) { //for whiteish tree corals
+      stroke(spikeColour);
+      fill(spikeColour);
+      strokeWeight(13);
+      push();
+      translate(offsetX, offsetY)
+      scale(size)
+      line(160, 730, 300, 650 + coralLength);
+      line(230, 665 + coralLength, 200, 600 + coralLength);
+      line(230, 665 + coralLength, 270, 590 + coralLength);
+      line(160, 730, 100, 600 + coralLength);
+      line(100, 600 + coralLength, 120, 570 + coralLength);
+      line(100, 600 + coralLength, 60, 590 + coralLength);
+      line(160, 730, 150, 600 + coralLength);
+      line(160, 730, 180, 629 + coralLength)
+      line(160, 730, 150, 760 + coralLength);
+      line(150, 740 + coralLength, 120, 760 + coralLength);
+      line(160, 720 + coralLength, 190, 770 + coralLength);
+      line(160, 730, 290, 710 + coralLength);
+      line(200, 700 + coralLength, 250, 740 + coralLength)
+      line(160, 730, 100, 690 + coralLength);
+      line(120, 690 + coralLength, 90, 650 + coralLength);
+      pop();
 
     }
 
-    for (let k = 0; k <= 13; k++) { //pink star shaped corals
+    for (let k = 0; k <= 14; k++) { //pink star shaped corals
       push();
       stroke(coralColour);
       fill(coralColour);
