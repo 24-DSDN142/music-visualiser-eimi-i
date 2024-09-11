@@ -6,44 +6,63 @@ let ShineArrayY = [130, 850, 1000, 300, 340, 690];
 let CircleArrayX = [500, 700, 100, 60, 220, 50, 500, 1000, 860, 600, 1200, 1400, 1170, 1400, 1600, 1870, 1640];
 let CircleArrayY = [50, 60, 160, 650, 840, 1000, 1040, 1020, 340, 250, 120, 50, 450, 540, 800, 300, 200];
 let bubbles = [];
-let coralArrayX = [10, 5, 60, 70, 130, 150, 150, 20, 1590, 1660, 1680, 1600, 1670, 1750, 210];
-let coralArrayY = [950, 1040, 1000, 900, 960, 890, 1040, 870, 530, 560, 500, 470, 420, 460, 970];
+let coralArrayX = [10, 5, 60, 70, 130, 150, 150, 20, 1590, 1660, 1680, 1600, 1670, 1750, 210, 1860, 1800, 1770, 1870, 1840, 1720, 1700];
+let coralArrayY = [950, 1040, 1000, 900, 960, 890, 1040, 870, 530, 560, 500, 470, 420, 460, 970, 850, 900, 990, 950, 1030, 910, 1030];
 let fishY;
 let swirlY;
+
 let Ymove = 250 //where the bubbles start
 let Ymove2 = 1380
 let Ymove3 = 1480
-let img; //pink fish
-let img2; //blue fish
-let img3; //rocks
-let img4; //bw rocks w coral
-let img5; //water background
-let img6; //bw purple coral
-let img7; //purple coral left
-let img8; //purple coral right
-let img9; //swirl
-let img10; //magic background
-let img11; //bw purplecoral right
+
+let PinkFish; //pink fish
+let BlueFish; //blue fish
+let BackgroundRocks; //rocks
+let BWBackgroundRocks; //bw rocks w coral
+let Water; //water background
+let PurpleCoralL; //purple coral left
+let PurpleCoralR; //purple coral right
+let BWPurpleCoralL; //bw purple coral
+let BWPurpleCoralR; //bw purplecoral right
+let Swirl; //swirl
+let MagicBackground; //magic background
+let Seaweed = [];
+let MSeaweed = [];
+let BWSeaweed = [];
+
 let firstRun = true
 
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
+  rectMode(CENTER)
   if (firstRun) { //images
-    img = loadImage('Pink_Fish.png'); //pink fish
-    img2 = loadImage('Blue_Fish.png'); //blue fish
-    img3 = loadImage('RockCoral.png');
-    img4 = loadImage('BWRockCoral.png');
-    img5 = loadImage('Water.png');
-    img6 = loadImage('BWPurpleCoral.png')
-    img7 = loadImage('PurpleCoral.png');
-    img8 = loadImage('PurpleCoral2.png');
-    img9 = loadImage('Swirl.png');
-    img10 = loadImage('magicbackground.png');
-    img11 = loadImage('BWPurpleCoral2.png');
+    PinkFish = loadImage('Pink_Fish.png'); //pink fish
+    BlueFish = loadImage('Blue_Fish.png'); //blue fish
+    BackgroundRocks = loadImage('RockCoral.png');
+    BWBackgroundRocks = loadImage('BWRockCoral.png');
+    Water = loadImage('Water.png');
+    BWPurpleCoralL = loadImage('BWPurpleCoral.png')
+    PurpleCoralL = loadImage('PurpleCoral.png');
+    PurpleCoralR = loadImage('PurpleCoral2.png');
+    Swirl = loadImage('Swirl.png');
+    MagicBackground = loadImage('magicbackground.png');
+    BWPurpleCoralR = loadImage('BWPurpleCoral2.png');
+
+    Seaweed.push(loadImage('Seaweed_1.png'));
+    Seaweed.push(loadImage('Seaweed_2.png'));
+    Seaweed.push(loadImage('Seaweed_3.png'));
+
+    MSeaweed.push(loadImage('MSeaweed_1.png'));
+    MSeaweed.push(loadImage('MSeaweed_2.png'));
+    MSeaweed.push(loadImage('MSeaweed_3.png'));
+
+    BWSeaweed.push(loadImage('BWSeaweed_1.png'));
+    BWSeaweed.push(loadImage('BWSeaweed_2.png'));
+    BWSeaweed.push(loadImage('BWSeaweed_3.png'));
+
     firstRun = false
   }
-  rectMode(CENTER)
-  background(img5);
+  background(Water);
 
   class Bubble {
     constructor(x, y, r) {
@@ -75,44 +94,43 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   let swirlY = map(bass, 0, 100, -50, 10)
 
 
-  //start and end
+  //start and end scene
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
-    image(img3, 0, 0); //rocks
-    image(img7, 430, 550, coralSize, coralSize); //purple corals 
-    image(img8, 1400, 550, coralSize, coralSize);
+    image(BackgroundRocks, 0, 0); //rocks
+    image(PurpleCoralL, 430, 550, coralSize, coralSize); //purple corals 
+    image(PurpleCoralR, 1400, 550, coralSize, coralSize);
     DrawCoral([211, 95, 212], [226, 182, 244]); //spinning coral
     DrawCoral([211, 95, 212], [226, 182, 244], 1150, -140);
     DrawCoral([211, 95, 212], [226, 182, 244], 50, 100, 0.5);
-    DrawSeaweed();
-    image(img2, 800, fishY); //change to blue fishy
+    DrawSeaweed(Seaweed);
+    image(BlueFish, 800, fishY); //change to blue fishy
 
   }
 
-  //build up
+  //build up scene scene
   if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
-    image(img3, 0, 0); //rocks
-    image(img7, 430, 550, coralSize, coralSize); //purple corals 
-    image(img8, 1400, 550, coralSize, coralSize);
+    image(BackgroundRocks, 0, 0); //rocks
+    image(PurpleCoralL, 430, 550, coralSize, coralSize); //purple corals 
+    image(PurpleCoralR, 1400, 550, coralSize, coralSize);
     DrawCoral([211, 95, 212], [226, 182, 244]);
     DrawCoral([211, 95, 212], [226, 182, 244], 1150, -140);
     DrawCoral([211, 95, 212], [226, 182, 244], 50, 100, 0.5);
-    DrawSeaweed();
-    image(img, 800, fishY); // pink fish
+    DrawSeaweed(Seaweed);
+    image(PinkFish, 800, fishY); // pink fish
   }
 
-  //magic 
+  //magic scene
   if ((counter > 2720 && counter < 5601) || (counter > 7400 && counter < 9201) || (counter > 12000 && counter < 14700)) {
-    image(img10, 0, 0);
+    image(MagicBackground, 0, 0);
     DrawCoral([255, 172, 255], [248, 231, 255]); //spinning coral
     DrawCoral([255, 172, 255], [248, 231, 255], 1150, -140);
     DrawCoral([255, 172, 255], [248, 231, 255], 50, 100, 0.5);
-    DrawSeaweed();
+    DrawSeaweed(MSeaweed);
     push();
     scale(1.06);
-    image(img9, 0, swirlY); //swirls :O
+    image(Swirl, 0, swirlY); //swirls :O
     pop();
-    image(img, 800, fishY); // fish
-
+    image(PinkFish, 800, fishY); // fish
 
     for (let s = 0; s <= 17; s++) { //circles
       fill(255, 232, 234);
@@ -128,42 +146,40 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
       ellipse(ShineArrayX[j], ShineArrayY[j], shineSize, 5);
       ellipse(ShineArrayX[j], ShineArrayY[j], 5, shineSize); //shine shape
-
     }
 
-    // for (let h = 0; h <= 20; h++) { //stars
-    // }    
   }
 
-  //still
+  //still scene
   if ((counter > 5600 && counter < 6501) || (counter > 9200 && counter < 10101)) {
     background(36, 36, 36);
-    image(img4, 0, 0)
-    image(img6, 430, 550, coralSize, coralSize); //purple corals 
-    image(img11, 1400, 550, coralSize, coralSize);
+    image(BWBackgroundRocks, 0, 0)
+    image(BWPurpleCoralL, 430, 550, coralSize, coralSize); //purple corals 
+    image(BWPurpleCoralR, 1400, 550, coralSize, coralSize);
     stroke('white');
     DrawCoral([143, 143, 143], [210, 210, 210]);
     DrawCoral([143, 143, 143], [210, 210, 210], 1150, -140);
     DrawCoral([143, 143, 143], [210, 210, 210], 50, 100, 0.5);
-    DrawSeaweed();
+    DrawSeaweed(BWSeaweed);
   }
 
-  //bubbles 
-  // if ((counter > 2650 && counter < 2700) || (counter > 5550 && counter < 5650) || (counter > 6450 && counter < 6550)) { //needs 150 counts
-  //   for (let b = 0; b < 340; b++) {
-  //     let x = random(width);
-  //     let y = random(height);
-  //     let r = random(10, 70);
-  //     bubbles[b] = new Bubble(x, y, r)
-  //     bubblesInitialized = true;
-  //   }
+  //bubbles
+  if ((counter > 2650 && counter < 2700) || (counter > 5550 && counter < 5650) || (counter > 6450 && counter < 6550)) { //needs 150 counts
+    for (let b = 0; b < 340; b++) {
+      let x = random(width);
+      let y = random(height);
+      let r = random(10, 70);
+      bubbles[b] = new Bubble(x, y, r)
+      bubblesInitialized = true;
+    }
 
-  //   for (let b = 0; b < 240; b++) {
-  //     bubbles[b].move();
-  //     bubbles[b].show();
-  //   }
+    for (let b = 0; b < 240; b++) {
+      bubbles[b].move();
+      bubbles[b].show();
+    }
 
-  // }
+  }
+
   for (let i = 0; i <= 20; i++) { //DUPLICATE
     fill(208, 243, 240);
     noFill();
@@ -213,8 +229,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       translate(offsetX, offsetY)
       scale(size)
       line(160, 730, 300, 650 + coralLength);
-      line(230, 665 + coralLength, 200, 600 + coralLength);
-      line(230, 665 + coralLength, 270, 590 + coralLength);
+      line(230, 683 + coralLength / 2, 200, 600 + coralLength);
+      line(230, 683 + coralLength / 2, 270, 590 + coralLength);
       line(160, 730, 100, 600 + coralLength);
       line(100, 600 + coralLength, 120, 570 + coralLength);
       line(100, 600 + coralLength, 60, 590 + coralLength);
@@ -224,14 +240,14 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       line(150, 740 + coralLength, 120, 760 + coralLength);
       line(160, 720 + coralLength, 190, 770 + coralLength);
       line(160, 730, 290, 710 + coralLength);
-      line(200, 700 + coralLength, 250, 740 + coralLength)
+      line(200, 720 + coralLength / 2, 250, 740 + coralLength)
       line(160, 730, 100, 690 + coralLength);
-      line(120, 690 + coralLength, 90, 650 + coralLength);
+      line(120, 705 + coralLength / 2, 90, 650 + coralLength);
       pop();
 
     }
 
-    for (let k = 0; k <= 14; k++) { //pink star shaped corals
+    for (let k = 0; k <= 21; k++) { //pink star shaped corals
       push();
       stroke(coralColour);
       fill(coralColour);
@@ -251,8 +267,12 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
   }
 
-  //from the snail video include some moving seaweed
-  function DrawSeaweed(seaweedColour) {
+  function DrawSeaweed(SeaweedType) {
+    let seaweedFrame = int(map(other, 0, 100, 0, 3));
+    console.log(seaweedFrame);
+    push();
+    image(SeaweedType[seaweedFrame], 0, 0);
+    pop();
 
   }
 }
