@@ -8,9 +8,9 @@ let CircleArrayY = [50, 60, 160, 650, 840, 1000, 1040, 1020, 340, 250, 120, 50, 
 let bubbles = [];
 let coralArrayX = [10, 5, 60, 70, 130, 150, 150, 20, 1590, 1660, 1680, 1600, 1670, 1750, 210];
 let coralArrayY = [950, 1040, 1000, 900, 960, 890, 1040, 870, 530, 560, 500, 470, 420, 460, 970];
-let fishX = 1;
-let fishY = 0;
-let Ymove = 250 //where the bubbles start 250
+let fishY;
+let swirlY;
+let Ymove = 250 //where the bubbles start
 let Ymove2 = 1380
 let Ymove3 = 1480
 let img; //pink fish
@@ -19,13 +19,13 @@ let img3; //rocks
 let img4; //bw rocks w coral
 let img5; //water background
 let img6; //bw purple coral
-let img7; //purple coral
-let img8; //purple coral
+let img7; //purple coral left
+let img8; //purple coral right
 let img9; //swirl
 let img10; //magic background
-let img11; //bw purplecoral(2)
+let img11; //bw purplecoral right
 let firstRun = true
-let bubblesInitialized = false;
+
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if (firstRun) { //images
@@ -39,7 +39,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     img8 = loadImage('PurpleCoral2.png');
     img9 = loadImage('Swirl.png');
     img10 = loadImage('magicbackground.png');
-    img11 = loadImage('BWPurpleCoral2')
+    img11 = loadImage('BWPurpleCoral2.png');
     firstRun = false
   }
   rectMode(CENTER)
@@ -72,8 +72,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   //magic variables
   let shineSize = map(vocal, 0, 100, 40, 100);
   let circleSize = map(bass, 0, 100, 3, 30);
+  let swirlY = map(bass, 0, 100, -50, 10)
 
-  //scene changes!!
+
   //start and end
   if ((counter > -5 && counter < 901) || (counter > 14700 && counter < 15801)) {
     image(img3, 0, 0); //rocks
@@ -87,7 +88,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
   }
 
-
   //build up
   if ((counter > 900 && counter < 2721) || (counter > 6500 && counter < 7401) || (counter > 10100 && counter < 12001)) {
     image(img3, 0, 0); //rocks
@@ -100,38 +100,40 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     image(img, 800, fishY); // pink fish
   }
 
-
-  //magic
+  //magic 
   if ((counter > 2720 && counter < 5601) || (counter > 7400 && counter < 9201) || (counter > 12000 && counter < 14700)) {
     image(img10, 0, 0);
-    background
-    image(img9, 0, 0); //swirls :O
+    DrawCoral([255, 172, 255], [248, 231, 255]); //spinning coral
+    DrawCoral([255, 172, 255], [248, 231, 255], 1150, -140);
+    DrawCoral([255, 172, 255], [248, 231, 255], 50, 100, 0.5);
+    DrawSeaweed();
+    push();
+    scale(1.06);
+    image(img9, 0, swirlY); //swirls :O
+    pop();
     image(img, 800, fishY); // fish
-    //circles
-    for (let s = 0; s <= 17; s++) {
-      fill(247, 237, 213);
-      stroke(247, 237, 213);
+
+
+    for (let s = 0; s <= 17; s++) { //circles
+      fill(255, 232, 234);
+      stroke(255, 232, 234);
       strokeWeight(2);
       ellipse(CircleArrayX[s], CircleArrayY[s], circleSize)
     }
 
-
-
     for (let j = 0; j <= 20; j++) { //shines
-      //shines
-      fill(249, 227, 178); //light yellow
-      stroke(249, 227, 178);
+      fill(255, 232, 234); //light yellow
+      stroke(255, 232, 234);
       strokeWeight(8);
 
       ellipse(ShineArrayX[j], ShineArrayY[j], shineSize, 5);
       ellipse(ShineArrayX[j], ShineArrayY[j], 5, shineSize); //shine shape
 
-
-      // for (let h = 0; h <= 20; h++) { //stars
-      // }
     }
-  }
 
+    // for (let h = 0; h <= 20; h++) { //stars
+    // }    
+  }
 
   //still
   if ((counter > 5600 && counter < 6501) || (counter > 9200 && counter < 10101)) {
@@ -147,7 +149,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   }
 
   //bubbles 
-  // bubblecut yo
   // if ((counter > 2650 && counter < 2700) || (counter > 5550 && counter < 5650) || (counter > 6450 && counter < 6550)) { //needs 150 counts
   //   for (let b = 0; b < 340; b++) {
   //     let x = random(width);
@@ -245,6 +246,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       ellipse(0, 0, 90, 5);
       pop();
     }
+
+    //seaweed
 
   }
 
