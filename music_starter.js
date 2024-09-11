@@ -13,8 +13,7 @@ let swirlY;
 
 let Ymove = 250 //where the bubbles start
 let Ymove2 = 1380
-let Ymove3 = 1480
-
+let Ymove3 = 1040
 let PinkFish; //pink fish
 let BlueFish; //blue fish
 let BackgroundRocks; //rocks
@@ -163,8 +162,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     DrawSeaweed(BWSeaweed);
   }
 
-  //bubbles
-  if ((counter > 2650 && counter < 2700) || (counter > 5550 && counter < 5650) || (counter > 6450 && counter < 6550)) { //needs 150 counts
+  //bubbles //2600 - 2750
+  if ((counter > 2650 && counter < 2770) || (counter > 5550 && counter < 5650) || (counter > 6450 && counter < 6550)) { //needs 150 counts
     for (let b = 0; b < 340; b++) {
       let x = random(width);
       let y = random(height);
@@ -209,9 +208,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if (Ymove2 < -1100) {
     Ymove2 = 1480;
   }
-  Ymove3 = Ymove3 - 13;
-  if (Ymove3 < -1000) {
-    Ymove3 = 1480;
+  Ymove3 = Ymove3 - 20;
+  if (Ymove3 < -1300) {
+    Ymove3 = 1380;
   }
 
   let seconds = counter //the timer at the bottom left 
